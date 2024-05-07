@@ -1,6 +1,11 @@
 import os
 
-Usuarios = {}
+Usuarios = {
+    "nome": "Luiz Edu",
+    "senha": "123",
+    "saldo": "1,000,000.00",
+    "Data_Nasc": "15/09/2004",
+}
 
 
 def menu_principal():
@@ -27,41 +32,42 @@ def Sair():
     pass
 
 
+def verificar_maioridade(idade):
+    if idade >= 18:
+        return True
+    else:
+        return False
+
+
 def criar_conta():
     nome = input("Nome: \n")
     Usuarios["nome"] = nome
     Data_Nasc = int(input(f"{nome} qual a sua Data de Nascimento : \n"))
-    Usuarios["Data_Nasc"] = Data_Nasc
-    cpf = int(input(f"{nome} qual o seu CPF: \n"))
-    Usuarios["cpf"] = cpf
-    if cpf in Usuarios.values():
-        print("CPF ja existente!")
-        criar_conta()
-    else:
-        escolha = input(f"Deseja continuar {nome}? [Sim] / [Nao] :  \n")
-        try:
+    idade = int(input(f"{nome} qual a sua Idade : \n"))
+    if verificar_maioridade(idade):
+        Usuarios["Data_Nasc"] = Data_Nasc
+        cpf = int(input(f"{nome} qual o seu CPF: \n"))
+        Usuarios["cpf"] = cpf
+        if cpf in Usuarios.values():
+            print("CPF ja existente!")
+            criar_conta()
+        else:
+            escolha = input(f"Deseja continuar {nome}? [Sim] / [Nao] :  \n")
             if escolha == "Sim" or escolha == "sim" or escolha == "S" or escolha == "s":
                 senha = int(input(f"{nome} qual a sua senha {cpf}: \n"))
-                try:
-                    if senha in Usuarios.values():
-                        print("Senha ja existente!")
-                        criar_conta()
-                    else:
-                        Usuarios["senha"] = senha
-                        print("Conta criada com sucesso!")
-                        input("Pressione Enter para continuar")
-                        main()
-                except:
-                    opcao_invalida()
-            elif (
-                escolha == "Nao" or escolha == "nao" or escolha == "N" or escolha == "n"
-            ):
-                main()
-            else:
-                opcao_invalida()
+                if senha in Usuarios.values():
+                    print("Senha ja existente!")
+                    criar_conta()
+                else:
+                    Usuarios["senha"] = senha
+                    print("Conta criada com sucesso!")
+                    input("Pressione Enter para continuar")
+                    main()
 
-        except:
-            opcao_invalida()
+            else:
+                main()
+    else:
+        print("A pessoa é menor de idade. ")
 
 
 def opcao_invalida():
@@ -72,7 +78,37 @@ def opcao_invalida():
 
 
 def logar_conta():
-    pass
+    nome = str(input("Qual o seu nome :\n"))
+    if nome in Usuarios.values():
+        senha = int(input("Qual a sua senha : \n"))
+        if senha in Usuarios.values():
+            NumeroDaConta = int(input("Qual o seu Numero da Conta :\n"))
+            if NumeroDaConta in Usuarios.values():
+                entrar()
+            else:
+                print(f"{nome} , colocou um {NumeroDaConta} invalido")
+                erro_login_conta()
+        else:
+            print(f"{nome} , colocou uma {senha} invalida")
+            erro_login_conta()
+    else:
+        print("Nome de usuario inexistente")
+        erro_login_conta()
+
+
+def erro_login_conta():
+    input("Pressione Enter para voltar")
+    main()
+
+
+def entrar():
+    print("Login com sucesso !!!")
+    input("Pressione Enter para continuar")
+    menu_da_conta_do_banco()
+
+
+def menu_da_conta_do_banco():
+    print("")
 
 
 def main():
