@@ -78,7 +78,7 @@ def Sair():
     """
     Função para Sair
     """
-    print("sAIR")
+    print("")
 
 
 def Limpar():
